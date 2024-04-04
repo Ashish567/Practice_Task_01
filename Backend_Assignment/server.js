@@ -10,7 +10,7 @@ const bodyParser = require("body-parser");
 const compression = require("compression");
 const cors = require("cors");
 
-// const AppError = require("./Utils/appError");
+const AppError = require("./Utils/App_Error");
 const globalErrorHandler = require("./Controllers/Error_Controller");
 // const userRouter = require("./Routes/userRoutes");
 // const projectRouter = require("./Routes/projectRoutes");
@@ -66,13 +66,6 @@ app.use(
 );
 
 app.use(compression());
-
-// Test middleware
-app.use((req, res, next) => {
-  req.requestTime = new Date().toISOString();
-  // console.log(req.cookies);
-  next();
-});
 
 // 3) ROUTES
 // app.use("/api/v1/users", userRouter);

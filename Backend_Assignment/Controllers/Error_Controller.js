@@ -1,4 +1,4 @@
-const AppError = require("./../Utils/Error");
+const AppError = require("../Utils/App_Error");
 
 const handleJWTError = () =>
   new AppError("Invalid token. Please log in again!", 401);
@@ -64,8 +64,6 @@ const sendErrorProd = (err, req, res) => {
 };
 
 module.exports = (err, req, res, next) => {
-  // console.log(err.stack);
-
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 

@@ -1,32 +1,31 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const ProcessError = require("./Utils/Process_Error");
 
 process.on("uncaughtException", (err) => {
-  console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
-  console.log(err);
-  console.log(err.name, err.message);
+  new ProcessError("UNCAUGHT EXCEPTION! 💥 Shutting down...", err);
   process.exit(1);
 });
 
-dotenv.config({ path: "./config.env" });
-
 const app = require("./server");
 
-if (process.env.NODE_ENV === "dev") {
-  const result = dotenv.config({ path: ".env.development" });
+const envFile =
+  process.env.NODE_ENV === "production"
+    ? ".env.production"
+    : ".env.development";
+dotenv.config({ path: `./Config/${envFile}` });
+process.env = {
+  ...process.env,
+  ...dotenv.config({ path: `./Config/config.env` }).parsed,
+};
 
-  process.env = {
-    ...process.env,
-    ...result.parsed,
-  };
-}
 const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
 );
 
-mongoose.set("strictQuery", false);
 mongoose
+  .set("strictQuery", false)
   .connect(DB, {
     useNewUrlParser: true,
   })
@@ -38,18 +37,12 @@ const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
 
-process.on("unhandledRejection", (err) => {
-  console.log("UNHANDLED REJECTION! 💥 Shutting down...");
-  console.log(err);
-  console.log(err.name, err.message);
-  server.close(() => {
-    process.exit(1);
+process
+  .on("unhandledRejection", (err) => {
+    new ProcessError("UNHANDLED REJECTION! 💥 Shutting down...", err);
+    server.close(() => process.exit(1));
+  })
+  .on("SIGTERM", () => {
+    new ProcessError("👋 SIGTERM RECEIVED. Shutting down gracefully", err);
+    server.close(() => console.log("💥 Process terminated!"));
   });
-});
-
-process.on("SIGTERM", () => {
-  console.log("👋 SIGTERM RECEIVED. Shutting down gracefully");
-  server.close(() => {
-    console.log("💥 Process terminated!");
-  });
-});
