@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const ProcessError = require("./Utils/Process_Error");
+const ProcessError = require("./Src/Utils/Process_Error");
 
 process.on("uncaughtException", (err) => {
   new ProcessError("UNCAUGHT EXCEPTION! 💥 Shutting down...", err);
   process.exit(1);
 });
 
-const app = require("./app");
+const app = require("./Src/app");
 
 const envFile =
   process.env.NODE_ENV === "production"
@@ -30,7 +30,7 @@ mongoose
     useNewUrlParser: true,
   })
   .then(() => console.log("DB connection successful!"))
-  .catch((err) => console.log(err));
+  .catch((err) => new ProcessError("DB connection failed!", err));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
