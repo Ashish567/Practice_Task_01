@@ -20,6 +20,9 @@ consumed by the front end.
 performance and security. However, only you should use only a web server (the development
 server is fine) and a database, and just incorporate all concepts using these two servers. Do not
 use other servers.
+
+<!-- ###### -->
+
 Data to be stored for each user:
 ● Name, Phone Number, Email Address.
 

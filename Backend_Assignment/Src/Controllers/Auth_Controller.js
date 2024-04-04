@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { promisify } = require("util");
 
 const AppError = require("../Utils/App_Error");
 
@@ -25,7 +26,7 @@ const createSendToken = (user, statusCode, req, res) => {
   });
 
   // Remove password from output
-  // user.password = undefined;
+  user.password = undefined;
 
   res.status(statusCode).json({
     status: "success",
@@ -106,23 +107,21 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   // 2) Check if user exists && password is correct
   const user = await User.findOne({ phoneNumber }).select("+password");
-
-  if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError("Incorrect phoneNumber or password", 401));
+  if (!user) {
+    return next(new AppError("User not found"), 404);
   }
 
-  // 3) If everything ok, send token to client
-  const token = signToken(user._id);
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return next(new AppError("Incorrect phoneNumber or password", 401));
+  }
+  createSendToken(user, 200, req, res);
+});
 
-  res.cookie("jwt", token, {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-    ),
+exports.logout = catchAsync((req, res) => {
+  res.cookie("jwt", "loggedout", {
+    expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
   });
-
-  res.status(200).json({
-    status: "success",
-    token,
-  });
+  res.status(200).json({ status: "success" });
 });
