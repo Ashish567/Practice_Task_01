@@ -4,10 +4,10 @@
   "description": "",
   "emil": "djdaydreamer.singh4@gmail.com",
   "author": "Ashish Kumar Singh <djdaydreamer.singh4@gmail.com> (djdaydreamer.singh4@gmail.com)",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
+    "dev": "nodemon server.js",
+    "start": "node server.js",
     "test": "jest"
   },
   "keywords": [],
