@@ -2,6 +2,8 @@
   "name": "Backend_Assignment",
   "version": "1.0.0",
   "description": "",
+  "emil": "djdaydreamer.singh4@gmail.com",
+  "author": "Ashish Kumar Singh <djdaydreamer.singh4@gmail.com> (djdaydreamer.singh4@gmail.com)",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
@@ -9,7 +11,6 @@
     "test": "jest"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.6.8",

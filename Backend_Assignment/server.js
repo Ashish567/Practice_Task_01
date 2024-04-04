@@ -11,7 +11,7 @@ const compression = require("compression");
 const cors = require("cors");
 
 // const AppError = require("./Utils/appError");
-// const globalErrorHandler = require("./Controllers/errorController");
+const globalErrorHandler = require("./Controllers/Error_Controller");
 // const userRouter = require("./Routes/userRoutes");
 // const projectRouter = require("./Routes/projectRoutes");
 // const taskRouter = require("./Routes/taskRoute");
@@ -58,15 +58,12 @@ app.use(bodyParser.json());
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
-// Data sanitization against XSS
-// app.use(xss());
-
 // Prevent parameter pollution
-// app.use(
-//   hpp({
-//     whitelist: ["taskName", "taskStatus", "projectName", "projectStatus"],
-//   })
-// );
+app.use(
+  hpp({
+    // whitelist: ["taskName", "taskStatus", "projectName", "projectStatus"],
+  })
+);
 
 app.use(compression());
 
@@ -86,6 +83,6 @@ app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 module.exports = app;
