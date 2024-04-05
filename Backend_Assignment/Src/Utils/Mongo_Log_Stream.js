@@ -1,17 +1,19 @@
+const Log = require("../Models/Log_Model");
 class MongoStream {
   write(log) {
-    const logData = JSON.parse(log);
-    const { method, url, status, responseTime } = logData;
+    // const logData = JSON.parse(log);
+    // const { method, url, status, responseTime } = logData;
 
-    const newLog = new Log({
-      method,
-      url,
-      status,
-      responseTime,
-    });
+    // const newLog = new Log({
+    //   method,
+    //   url,
+    //   status,
+    //   responseTime,
+    // });
+    console.log(log);
+    // const newLog = new Log(log);
 
-    newLog
-      .save()
+    Log.save(log)
       .then(() => console.log("Log saved to database"))
       .catch((err) => console.error("Error saving log:", err));
   }

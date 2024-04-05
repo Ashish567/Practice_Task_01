@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
+const mongoose_morgan = require("mongoose-morgan");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
@@ -13,7 +14,7 @@ const cors = require("cors");
 const AppError = require("./Utils/App_Error");
 const globalErrorHandler = require("./Controllers/Error_Controller");
 
-const Mongo_Log_Stream = require("./Utils/Mongo_Log_Stream");
+// const logger = require("./Middleware/Request_Log");
 
 const user_routes = require("./Routes/User_Routes");
 const contact_routes = require("./Routes/Contact_Routes");
@@ -43,15 +44,33 @@ app.use(helmet());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+app.use(
+  mongoose_morgan(
+    {
+      collection: "error_logger",
+      connectionString: "mongodb://localhost:27017/logs-db",
+      // user: "admin",
+      // pass: "test12345",
+    },
+    {
+      skip: function (req, res) {
+        return res.statusCode < 400;
+      },
+    },
+    "dev"
+  )
+);
+// app.use(logger);
 // Production logging
 if (process.env.NODE_ENV === "production") {
-  app.use(morgan("combined", { stream: Mongo_Log_Stream }));
+  // console.log("Production");
 }
 // Limit requests from same API
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
   message: "Too many requests from this IP, please try again in an hour!",
+  validate: { trustProxy: false },
 });
 app.use("/api", limiter);
 
@@ -72,6 +91,12 @@ app.use(
 );
 
 app.use(compression());
+app.get("/api/v1", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Welcome to the Contact API",
+  });
+});
 
 // 3) ROUTES
 app.use("/api/v1/user", user_routes);

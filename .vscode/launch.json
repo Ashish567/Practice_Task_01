@@ -8,10 +8,10 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program With Nodemon",
-      "runtimeExecutable": "nodemon",
+      "runtimeExecutable": "npm",
       "restart": true,
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\Backend_Assignment\\Src\\app.js"
+      "program": "${workspaceFolder}\\Backend_Assignment\\server.js"
     }
   ]
 }

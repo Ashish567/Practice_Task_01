@@ -9,16 +9,9 @@ process.on("uncaughtException", (err) => {
 
 const app = require("./Src/app");
 
-const envFile =
-  process.env.NODE_ENV === "production"
-    ? ".env.production"
-    : ".env.development";
-dotenv.config({ path: `./Config/${envFile}` });
-process.env = {
-  ...process.env,
-  ...dotenv.config({ path: `./Config/config.env` }).parsed,
-};
+dotenv.config({ path: `./Config/.env.${process.env.NODE_ENV}` });
 
+console.log(process.env.NODE_ENV);
 const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
