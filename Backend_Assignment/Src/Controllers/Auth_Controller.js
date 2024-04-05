@@ -1,7 +1,10 @@
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+
 const { promisify } = require("util");
 
 const AppError = require("../Utils/App_Error");
+const catchAsync = require("../Utils/Catch_Async");
 
 const User = require("../Models/User_Model");
 const User_Schema_Validate = require("../Schema/User_Schema_Validate");

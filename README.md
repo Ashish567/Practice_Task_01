@@ -86,4 +86,4 @@ Request regarding plagiarism:
 ● Please don’t send code that is partly or fully written by someone else. We check every new hire’s
 code for plagiarism one month after you join us. If any level of plagiarism is found in your
 assignment, or any misrepresentation is found in the professional credentials you present in your
-resume, then 1) your employment will be terminated immediately and no salary will be due
+resume, then 1) your employment will be terminated immediately and no salary will be due.

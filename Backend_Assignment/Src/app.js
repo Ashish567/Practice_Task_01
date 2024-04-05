@@ -13,6 +13,8 @@ const cors = require("cors");
 const AppError = require("./Utils/App_Error");
 const globalErrorHandler = require("./Controllers/Error_Controller");
 
+const Mongo_Log_Stream = require("./Utils/Mongo_Log_Stream");
+
 const user_routes = require("./Routes/User_Routes");
 const contact_routes = require("./Routes/Contact_Routes");
 
@@ -41,7 +43,10 @@ app.use(helmet());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
-
+// Production logging
+if (process.env.NODE_ENV === "production") {
+  app.use(morgan("combined", { stream: Mongo_Log_Stream }));
+}
 // Limit requests from same API
 const limiter = rateLimit({
   max: 100,
