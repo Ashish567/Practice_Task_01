@@ -1,0 +1,16 @@
+.seat {
+  border: 0.8px solid black;
+  width: 120px;
+  height: 60px;
+  margin-right: 35px;
+  margin-bottom: 25px;
+}
+.circ {
+  border: 0.7px solid black;
+  float: right;
+  height: 40px;
+  width: 15px;
+  border-radius: 5px;
+  margin-top: 8px;
+  margin-right: 8px;
+}
