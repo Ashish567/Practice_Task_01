@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const ProcessError = require("./Src/Utils/Process_Error");
 
+// Uncomment this when running 1st time
 // const importDataFromCSV = require("./import_data");
 // importDataFromCSV.importDataFromCSV("./Data/Contact.csv", "./Data/User.csv");
 
@@ -14,18 +15,17 @@ const app = require("./Src/app");
 
 dotenv.config({ path: `./Config/.env.${process.env.NODE_ENV}` });
 
-console.log(process.env.NODE_ENV);
-const DB = process.env.DATABASE.replace(
-  "<PASSWORD>",
+const DB = process.env.DATABASE_CLOUD.replace(
+  "<password>",
   process.env.DATABASE_PASSWORD
-);
+).replace("<username>", process.env.DATABASE_USER_NAME);
 
 mongoose
   .set("strictQuery", false)
   .connect(DB, {
     useNewUrlParser: true,
   })
-  .then(() => console.log("DB connection successful!"))
+  .then(() => console.log("DB connection successful!!"))
   .catch((err) => new ProcessError("DB connection failed!", err));
 
 const port = process.env.PORT || 3000;
