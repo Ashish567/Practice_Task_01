@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const compression = require("compression");
 const cors = require("cors");
-
+const mongoose = require("mongoose");
 const AppError = require("./Utils/App_Error");
 const globalErrorHandler = require("./Controllers/Error_Controller");
 
@@ -44,11 +44,12 @@ app.use(helmet());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+// process.env.DATABASE_CLOUD
 app.use(
   mongoose_morgan(
     {
       collection: "error_logger",
-      connectionString: "mongodb://localhost:27017/logs-db",
+      connectionString: mongoose.connection.client.s.url + "/logs-db",
       // user: "admin",
       // pass: "test12345",
     },
