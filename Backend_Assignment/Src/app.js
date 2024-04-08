@@ -45,22 +45,22 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 // process.env.DATABASE_CLOUD
-app.use(
-  mongoose_morgan(
-    {
-      collection: "error_logger",
-      connectionString: mongoose.connection.client.s.url + "/logs-db",
-      // user: "admin",
-      // pass: "test12345",
-    },
-    {
-      skip: function (req, res) {
-        return res.statusCode < 400;
-      },
-    },
-    "dev"
-  )
-);
+// app.use(
+//   mongoose_morgan(
+//     {
+//       collection: "error_logger",
+//       connectionString: mongoose.connection.client.s.url + "/logs-db",
+//       // user: "admin",
+//       // pass: "test12345",
+//     },
+//     {
+//       skip: function (req, res) {
+//         return res.statusCode < 400;
+//       },
+//     },
+//     "dev"
+//   )
+// );
 // app.use(logger);
 // Production logging
 if (process.env.NODE_ENV === "production") {
