@@ -38,5 +38,8 @@
     "piscina": "^4.4.0",
     "winston": "^3.13.0",
     "winston-mongodb": "^5.1.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
