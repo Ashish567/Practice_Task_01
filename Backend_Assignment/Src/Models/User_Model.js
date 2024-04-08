@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const Contact_Model = require("./Contact_Model");
 
 // Define schema
 const userModel = new mongoose.Schema({
@@ -12,7 +13,7 @@ const userModel = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  emailAddress: {
+  email: {
     type: String,
     required: false,
   },
@@ -48,8 +49,22 @@ userModel.pre("save", async function (next) {
     next(error);
   }
 });
+userModel.post("save", async function (doc, next) {
+  Contact_Model.create({
+    name: doc.name,
+    phoneNumber: doc.phoneNumber,
+    spam: false,
+    spamCount: 0,
+    registeredUser: true,
+  });
+  next();
+});
+userModel.post("save", async function (doc, next) {
+  console.log("Importing Contacts into global DB....");
+  next();
+});
 
 // Create model
-const User = mongoose.model("Contact", userModel);
+const User = mongoose.model("User", userModel);
 
 module.exports = User;

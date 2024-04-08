@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const ProcessError = require("./Src/Utils/Process_Error");
 
+// const importDataFromCSV = require("./import_data");
+// importDataFromCSV.importDataFromCSV("./Data/Contact.csv", "./Data/User.csv");
+
 process.on("uncaughtException", (err) => {
   new ProcessError("UNCAUGHT EXCEPTION! 💥 Shutting down...", err);
   process.exit(1);

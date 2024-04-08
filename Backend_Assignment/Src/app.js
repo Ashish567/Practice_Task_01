@@ -86,7 +86,7 @@ app.use(mongoSanitize());
 // Prevent parameter pollution
 app.use(
   hpp({
-    // whitelist: ["taskName", "taskStatus", "projectName", "projectStatus"],
+    whitelist: [],
   })
 );
 

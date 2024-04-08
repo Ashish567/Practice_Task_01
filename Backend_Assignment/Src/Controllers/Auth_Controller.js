@@ -10,7 +10,7 @@ const User = require("../Models/User_Model");
 const User_Schema_Validate = require("../Schema/User_Schema_Validate");
 
 function joiValidate(obj) {
-  return Joi.validate(obj, User_Schema_Validate);
+  return User_Schema_Validate.validate(obj);
 }
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -94,6 +94,7 @@ exports.signup = catchAsync(async (req, res, next) => {
       message: "User registered successfully!",
     });
   } catch (err) {
+    console.log(err);
     return next(
       new AppError("There was an error creating the user. Try again later!"),
       500
