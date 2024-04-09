@@ -4,13 +4,15 @@ import Overlay from "react-bootstrap/Overlay";
 import Tooltip from "react-bootstrap/Tooltip";
 import "./index.css";
 import ModalForm from "../ModalForm";
+import { Ticket_Availibilty_Atom } from "../../Atoms";
+import { useRecoilState } from "recoil";
 
 interface SeatsProps {
   status: string;
   direction: string;
   xtraStyle: string;
   xtrastyle_1: string;
-  seatNumber: number;
+  seatnumber: number;
 }
 
 const Seats: FunctionComponent<SeatsProps> = ({
@@ -18,7 +20,7 @@ const Seats: FunctionComponent<SeatsProps> = ({
   direction,
   xtraStyle,
   xtrastyle_1,
-  seatNumber,
+  seatnumber,
 }) => {
   const [bookingstatus] = useState({
     Available: "white",
@@ -41,6 +43,9 @@ const Seats: FunctionComponent<SeatsProps> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const [ticketAvailibilty, setTicketAvailibilty] = useRecoilState(
+    Ticket_Availibilty_Atom
+  );
 
   // Add index signature to bookingstatus object
   const bookingStatusColors: { [key: string]: string } = bookingstatus;
@@ -61,7 +66,9 @@ const Seats: FunctionComponent<SeatsProps> = ({
           }, 2000);
         }}
         onMouseLeave={() => setShow(false)}
-        onClick={() => setModalForm(true)}
+        onClick={() => {
+          ticketAvailibilty[seatnumber] ? null : setModalForm(true);
+        }}
         className="seat"
         style={{
           backgroundColor: bookingStatusColors[status],
@@ -84,7 +91,7 @@ const Seats: FunctionComponent<SeatsProps> = ({
       <ModalForm
         show={modalForm}
         onHide={() => setModalForm(false)}
-        seatNumber={seatNumber}
+        seatNumber={seatnumber}
       />
     </>
   );

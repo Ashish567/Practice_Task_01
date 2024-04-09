@@ -1,0 +1,30 @@
+.reservation-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.card_content {
+  cursor: pointer;
+  width: 200px;
+  padding: 10px;
+  height: 250px;
+  margin: 10px;
+}
+.nam_hol {
+  display: flex;
+}
+.nam_hol p {
+  margin-right: 4px;
+}
+.res_cont {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100%;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  color: brown;
+  font-size: large;
+}

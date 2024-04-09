@@ -1,14 +1,23 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import steering_wheel from "../../assets/steering_wheel.png";
 import "./index.css";
 import Seats from "../../Components/Seats";
 import { useLiveQuery } from "dexie-react-hooks";
 import { LocalDB } from "../../DB/DB";
+import { Ticket_Availibilty_Atom } from "../../Atoms";
+import { useRecoilState } from "recoil";
 
 interface DashboardProps {}
+
 const Dashboard: FunctionComponent<DashboardProps> = () => {
+  const [ticketAvailibilty, setTicketAvailibilty] = useRecoilState(
+    Ticket_Availibilty_Atom
+  );
+  useEffect(() => {}, [ticketAvailibilty]);
   const tickets = useLiveQuery(() => LocalDB.tickets.toArray());
+  if (!tickets) return null;
   console.log(tickets);
+
   return (
     <div className="contain">
       <div className="dashboard_bgc" style={{ marginTop: "20px" }}>
@@ -25,11 +34,16 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
             </div>
             <div className="seat_area">
               <div className="seat_row">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((seatNumber: number) => {
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((seatnumber: number) => {
                   return (
                     <Seats
-                      seatNumber={seatNumber}
-                      status={"Occupied"}
+                      key={seatnumber}
+                      seatnumber={seatnumber}
+                      status={
+                        ticketAvailibilty[seatnumber.toString()]
+                          ? ticketAvailibilty[seatnumber.toString()]
+                          : "Available"
+                      }
                       direction={"row"}
                       xtraStyle={JSON.stringify({})}
                       xtrastyle_1={JSON.stringify({})}
@@ -38,11 +52,16 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
                 })}
               </div>
               <div className="seat_row">
-                {[11, 12, 13, 14, 15].map((seatNumber: number) => {
+                {[11, 12, 13, 14, 15].map((seatnumber: number) => {
                   return (
                     <Seats
-                      seatNumber={seatNumber}
-                      status={"Available"}
+                      key={seatnumber}
+                      seatnumber={seatnumber}
+                      status={
+                        ticketAvailibilty[seatnumber.toString()]
+                          ? ticketAvailibilty[seatnumber.toString()]
+                          : "Available"
+                      }
                       direction={"row"}
                       xtraStyle={JSON.stringify({})}
                       xtrastyle_1={JSON.stringify({})}
@@ -53,8 +72,13 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
             </div>
             <div>
               <Seats
-                seatNumber={16}
-                status="Booked"
+                seatnumber={16}
+                key={16}
+                status={
+                  ticketAvailibilty[16 + ""]
+                    ? ticketAvailibilty[16 + ""]
+                    : "Available"
+                }
                 direction="col"
                 xtraStyle={JSON.stringify({
                   marginLeft: "20px",
@@ -78,11 +102,16 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
           <div className="seat_area_upper">
             <div className="seat_row" style={{ marginTop: "60px" }}>
               {[17, 18, 19, 20, 21, 22, 23, 24, 25, 26].map(
-                (seatNumber: number) => {
+                (seatnumber: number) => {
                   return (
                     <Seats
-                      seatNumber={seatNumber}
-                      status={"Occupied"}
+                      key={seatnumber}
+                      seatnumber={seatnumber}
+                      status={
+                        ticketAvailibilty[seatnumber.toString()]
+                          ? ticketAvailibilty[seatnumber.toString()]
+                          : "Available"
+                      }
                       direction={"row"}
                       xtraStyle={JSON.stringify({})}
                       xtrastyle_1={JSON.stringify({})}
@@ -92,11 +121,16 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
               )}
             </div>
             <div className="seat_row" style={{ marginTop: "40px" }}>
-              {[27, 28, 29, 30, 31].map((seatNumber: number) => {
+              {[27, 28, 29, 30, 31].map((seatnumber: number) => {
                 return (
                   <Seats
-                    seatNumber={seatNumber}
-                    status={"Available"}
+                    key={seatnumber}
+                    seatnumber={seatnumber}
+                    status={
+                      ticketAvailibilty[seatnumber.toString()]
+                        ? ticketAvailibilty[seatnumber.toString()]
+                        : "Available"
+                    }
                     direction={"row"}
                     xtraStyle={JSON.stringify({})}
                     xtrastyle_1={JSON.stringify({})}
@@ -107,8 +141,13 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
           </div>
           <div>
             <Seats
-              seatNumber={32}
-              status="Booked"
+              key={32}
+              seatnumber={32}
+              status={
+                ticketAvailibilty[32 + ""]
+                  ? ticketAvailibilty[32 + ""]
+                  : "Available"
+              }
               direction="col"
               xtraStyle={JSON.stringify({
                 marginLeft: "20px",
